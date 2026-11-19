@@ -1,10 +1,17 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
+import { autorService } from './services/api';
 
-// Mock do serviço para não chamar o backend de verdade (e não carregar o axios no Jest)
+// Mock dos serviços para não chamar o backend de verdade (e não carregar o axios no Jest)
 jest.mock('./services/api', () => ({
-  autorService: { listar: jest.fn(() => Promise.resolve({ data: [] })) }
+  autorService: { listar: jest.fn() },
+  livroService: { listar: jest.fn() }
 }));
+
+beforeEach(() => {
+  // o CRA reseta os mocks antes de cada teste, por isso definimos aqui
+  autorService.listar.mockResolvedValue({ data: [] });
+});
 
 test('mostra o título e o menu da Biblioteca Web', async () => {
   render(<App />);
