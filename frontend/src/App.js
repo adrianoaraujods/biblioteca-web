@@ -1,10 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import AutorList from './components/AutorList';
+import AutorForm from './components/AutorForm';
 import './App.css';
-
-function Inicio() {
-  return <p>Bem-vindo à Biblioteca Web! Use o menu acima.</p>;
-}
 
 function App() {
   return (
@@ -20,7 +18,10 @@ function App() {
 
         <main className="container">
           <Routes>
-            <Route path="/" element={<Inicio />} />
+            <Route path="/" element={<AutorList />} />
+            <Route path="/autores" element={<AutorList />} />
+            <Route path="/autores/novo" element={<AutorForm />} />
+            <Route path="/autores/editar/:id" element={<AutorForm />} />
           </Routes>
         </main>
       </div>
