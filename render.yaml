@@ -1,0 +1,47 @@
+# Render Blueprint: PostgreSQL + backend (Spring Boot) + frontend (React/Nginx)
+databases:
+  - name: biblioteca-db
+    plan: free
+    databaseName: biblioteca_db
+    user: biblioteca
+
+services:
+  - type: web
+    name: biblioteca-backend
+    runtime: docker
+    plan: free
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api-docs
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: biblioteca-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: biblioteca-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: biblioteca-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: biblioteca-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: biblioteca-db
+          property: password
+
+  - type: web
+    name: biblioteca-frontend
+    runtime: docker
+    plan: free
+    rootDir: frontend
+    dockerfilePath: ./Dockerfile
+    envVars:
+      # Ex.: https://biblioteca-backend.onrender.com/api (informado ao criar o Blueprint)
+      - key: REACT_APP_API_URL
+        sync: false
