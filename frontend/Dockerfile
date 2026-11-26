@@ -5,6 +5,9 @@ COPY package.json package-lock.json ./
 RUN npm ci
 COPY public ./public
 COPY src ./src
+# URL da API embutida no build (React lê REACT_APP_* em tempo de build)
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
 RUN npm run build
 
 # ======= RUNTIME STAGE =======
